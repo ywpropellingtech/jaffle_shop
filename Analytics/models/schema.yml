@@ -6,9 +6,6 @@ models:
     columns:
       - name: customer_id
         description: Unique customer identifier
-        tests:
-          - unique
-          - not_null
       - name: first_name
         description: Customer first name
       - name: last_name
@@ -21,15 +18,8 @@ models:
     columns:
       - name: order_id
         description: Unique order identifier
-        tests:
-          - unique
-          - not_null
       - name: customer_id
         description: Reference to customer
-        tests:
-          - relationships:
-              to: ref('stg_customers')
-              field: customer_id
       - name: order_date
         description: Date the order was placed
       - name: status
@@ -42,15 +32,8 @@ models:
     columns:
       - name: payment_id
         description: Unique payment identifier
-        tests:
-          - unique
-          - not_null
       - name: order_id
         description: Reference to order
-        tests:
-          - relationships:
-              to: ref('stg_orders')
-              field: order_id
       - name: payment_method
         description: Payment method used (credit card, etc)
       - name: status

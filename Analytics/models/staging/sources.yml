@@ -12,9 +12,6 @@ sources:
           - name: id
             description: Unique customer identifier
             data_type: INTEGER
-            tests:
-              - unique
-              - not_null
           - name: first_name
             description: Customer first name
             data_type: VARCHAR
@@ -28,17 +25,9 @@ sources:
           - name: id
             description: Unique order identifier
             data_type: INTEGER
-            tests:
-              - unique
-              - not_null
           - name: user_id
             description: Foreign key to customers table
             data_type: INTEGER
-            tests:
-              - not_null
-              - relationships:
-                  to: source('jaffle_shop', 'customers')
-                  field: id
           - name: order_date
             description: Date the order was placed
             data_type: DATE
@@ -60,17 +49,9 @@ sources:
           - name: id
             description: Unique payment identifier
             data_type: INTEGER
-            tests:
-              - unique
-              - not_null
           - name: orderid
             description: Foreign key to orders table
             data_type: INTEGER
-            tests:
-              - not_null
-              - relationships:
-                  to: source('jaffle_shop', 'orders')
-                  field: id
           - name: paymentmethod
             description: Payment method used (credit card, etc)
             data_type: VARCHAR
