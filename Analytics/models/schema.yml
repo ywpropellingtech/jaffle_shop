@@ -6,12 +6,31 @@ models:
     columns:
       - name: customer_id
         description: Unique customer identifier
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
       - name: first_name
         description: Customer first name
+        tests:
+          - not_null:
+              config:
+                severity: warn
       - name: last_name
         description: Customer last name
+        tests:
+          - not_null:
+              config:
+                severity: warn
       - name: loaded_at
         description: When the record was loaded into the warehouse
+        tests:
+          - not_null:
+              config:
+                severity: warn
 
   - name: stg_orders
     description: Staging layer - cleaned order data from Jaffle Shop
