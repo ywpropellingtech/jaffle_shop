@@ -126,6 +126,61 @@ models:
               config:
                 severity: warn
 
+  - name: int_customers_orders
+    description: Intermediate layer - customers joined with their orders (excludes invalid status)
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: first_name
+        description: Customer first name
+      - name: last_name
+        description: Customer last name
+      - name: order_id
+        description: Unique order identifier
+      - name: order_date
+        description: Date the order was placed
+      - name: order_status
+        description: Order status
+        tests:
+          - accepted_values:
+              config:
+                severity: warn
+              values: ['completed', 'pending', 'cancelled', 'return', 'returned', null]
+      - name: order_loaded_at
+        description: When the order was loaded
+
+  - name: int_orders_payments
+    description: Intermediate layer - orders joined with payments (excludes invalid status)
+    columns:
+      - name: order_id
+        description: Unique order identifier
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: customer_id
+        description: Customer identifier
+      - name: order_date
+        description: Date the order was placed
+      - name: order_status
+        description: Order status
+      - name: payment_id
+        description: Unique payment identifier
+      - name: payment_method
+        description: Payment method used
+      - name: payment_status
+        description: Payment status
+      - name: amount_usd
+        description: Payment amount in USD
+      - name: payment_date
+        description: Date payment was created
+      - name: batched_at
+        description: When the payment was batched
+
   - name: mart_example
     description: Example mart model
     columns:
