@@ -5,17 +5,15 @@
 
 with source_data as (
   select
-    customer_id,
-    customer_name,
-    email,
-    created_at
-  from {{ source('raw_data', 'customers') }}
+    id,
+    first_name,
+    last_name
+  from {{ source('jaffle_shop', 'customers') }}
 )
 
 select
-  customer_id,
-  customer_name,
-  email,
-  created_at,
+  id as customer_id,
+  first_name,
+  last_name,
   current_timestamp() as loaded_at
 from source_data
