@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_example
+    description: Example staging model
+    columns:
+      - name: id
+        description: Unique identifier
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: Name field
+
+  - name: mart_example
+    description: Example mart model
+    columns:
+      - name: id
+        description: Unique identifier
+      - name: name
+        description: Name field
