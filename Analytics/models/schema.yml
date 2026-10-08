@@ -173,6 +173,108 @@ models:
       - name: batched_at
         description: When the payment was batched
 
+  - name: fct_orders
+    description: Fact table - order transactions with payment details (one row per payment)
+    columns:
+      - name: order_id
+        description: Order identifier
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: customer_id
+        description: Foreign key to customer
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: order_date
+        description: Date the order was placed
+      - name: order_status
+        description: Order status
+      - name: payment_id
+        description: Associated payment identifier
+      - name: payment_method
+        description: Payment method used
+      - name: payment_status
+        description: Payment status
+      - name: amount_usd
+        description: Order amount in USD
+      - name: payment_date
+        description: Date payment was processed
+      - name: created_at
+        description: When this record was created in warehouse
+
+  - name: dim_customers
+    description: Dimension table - customer master with aggregates
+    columns:
+      - name: customer_id
+        description: Unique customer identifier (primary key)
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
+      - name: first_name
+        description: Customer first name
+      - name: last_name
+        description: Customer last name
+      - name: total_orders
+        description: Total number of orders placed by customer
+      - name: total_spent
+        description: Total amount spent by customer in USD
+      - name: last_order_date
+        description: Date of most recent order
+      - name: created_at
+        description: When this record was created in warehouse
+
+  - name: fct_payments
+    description: Fact table - payment transactions with order context
+    columns:
+      - name: payment_id
+        description: Unique payment identifier (primary key)
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
+      - name: order_id
+        description: Foreign key to order
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: customer_id
+        description: Foreign key to customer
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: payment_method
+        description: Payment method used
+      - name: payment_status
+        description: Payment status
+      - name: amount_usd
+        description: Payment amount in USD
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: payment_date
+        description: Date payment was processed
+      - name: batched_at
+        description: When payment was batched
+      - name: order_status
+        description: Order status
+      - name: order_date
+        description: Date order was placed
+      - name: created_at
+        description: When this record was created in warehouse
+
   - name: mart_example
     description: Example mart model
     columns:
