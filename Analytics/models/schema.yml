@@ -1,16 +1,41 @@
 version: 2
 
 models:
-  - name: stg_example
-    description: Example staging model
+  - name: stg_customers
+    description: Staging layer - cleaned customer data from raw sources
     columns:
-      - name: id
-        description: Unique identifier
+      - name: customer_id
+        description: Unique customer identifier
         tests:
           - unique
           - not_null
-      - name: name
-        description: Name field
+      - name: customer_name
+        description: Customer full name
+      - name: email
+        description: Customer email address
+      - name: created_at
+        description: Account creation timestamp
+      - name: loaded_at
+        description: When the record was loaded into the warehouse
+
+  - name: stg_orders
+    description: Staging layer - cleaned order data from raw sources
+    columns:
+      - name: order_id
+        description: Unique order identifier
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Reference to customer
+      - name: order_date
+        description: Date the order was placed
+      - name: total_amount
+        description: Total order amount
+      - name: status
+        description: Order status
+      - name: loaded_at
+        description: When the record was loaded into the warehouse
 
   - name: mart_example
     description: Example mart model
