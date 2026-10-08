@@ -1,0 +1,88 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    description: Jaffle Shop raw data from S3
+    database: raw
+    schema: jaffle_shop
+    tables:
+      - name: customers
+        description: Raw customer data
+        columns:
+          - name: id
+            description: Unique customer identifier
+            data_type: INTEGER
+            tests:
+              - unique
+              - not_null
+          - name: first_name
+            description: Customer first name
+            data_type: VARCHAR
+          - name: last_name
+            description: Customer last name
+            data_type: VARCHAR
+
+      - name: orders
+        description: Raw order transactions
+        columns:
+          - name: id
+            description: Unique order identifier
+            data_type: INTEGER
+            tests:
+              - unique
+              - not_null
+          - name: user_id
+            description: Foreign key to customers table
+            data_type: INTEGER
+            tests:
+              - not_null
+              - relationships:
+                  to: source('jaffle_shop', 'customers')
+                  field: id
+          - name: order_date
+            description: Date the order was placed
+            data_type: DATE
+          - name: status
+            description: Order status (pending, completed, cancelled)
+            data_type: VARCHAR
+          - name: _etl_loaded_at
+            description: Timestamp when record was loaded
+            data_type: TIMESTAMP_NTZ
+
+  - name: stripe
+    description: Stripe payment data from S3
+    database: raw
+    schema: stripe
+    tables:
+      - name: payment
+        description: Stripe payment transaction data
+        columns:
+          - name: id
+            description: Unique payment identifier
+            data_type: INTEGER
+            tests:
+              - unique
+              - not_null
+          - name: orderid
+            description: Foreign key to orders table
+            data_type: INTEGER
+            tests:
+              - not_null
+              - relationships:
+                  to: source('jaffle_shop', 'orders')
+                  field: id
+          - name: paymentmethod
+            description: Payment method used (credit card, etc)
+            data_type: VARCHAR
+          - name: status
+            description: Payment status (success, failed, etc)
+            data_type: VARCHAR
+          - name: amount
+            description: Payment amount in cents
+            data_type: INTEGER
+          - name: created
+            description: Date payment was created
+            data_type: DATE
+          - name: _batched_at
+            description: Timestamp when record was batched
+            data_type: TIMESTAMP_NTZ
