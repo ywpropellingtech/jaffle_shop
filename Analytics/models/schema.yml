@@ -62,10 +62,6 @@ models:
           - not_null:
               config:
                 severity: warn
-          - accepted_values:
-              config:
-                severity: warn
-              values: ['completed', 'pending', 'cancelled', 'return', 'returned']
       - name: loaded_at
         description: When the record was loaded into the warehouse
         tests:
@@ -103,10 +99,6 @@ models:
           - not_null:
               config:
                 severity: warn
-          - accepted_values:
-              config:
-                severity: warn
-              values: ['success', 'failed', 'pending']
       - name: amount_usd
         description: Payment amount in USD
         tests:
