@@ -37,32 +37,94 @@ models:
     columns:
       - name: order_id
         description: Unique order identifier
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
       - name: customer_id
         description: Reference to customer
+        tests:
+          - not_null:
+              config:
+                severity: error
       - name: order_date
         description: Date the order was placed
+        tests:
+          - not_null:
+              config:
+                severity: warn
       - name: status
         description: Order status (pending, completed, cancelled)
+        tests:
+          - not_null:
+              config:
+                severity: warn
+          - accepted_values:
+              config:
+                severity: warn
+              values: ['completed', 'pending', 'cancelled', 'return', 'returned']
       - name: loaded_at
         description: When the record was loaded into the warehouse
+        tests:
+          - not_null:
+              config:
+                severity: warn
 
   - name: stg_payments
     description: Staging layer - cleaned payment data from Stripe
     columns:
       - name: payment_id
         description: Unique payment identifier
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
       - name: order_id
         description: Reference to order
+        tests:
+          - not_null:
+              config:
+                severity: error
       - name: payment_method
         description: Payment method used (credit card, etc)
+        tests:
+          - not_null:
+              config:
+                severity: warn
       - name: status
         description: Payment status (success, failed, etc)
+        tests:
+          - not_null:
+              config:
+                severity: warn
+          - accepted_values:
+              config:
+                severity: warn
+              values: ['success', 'failed', 'pending']
       - name: amount_usd
         description: Payment amount in USD
+        tests:
+          - not_null:
+              config:
+                severity: error
       - name: payment_date
         description: Date payment was created
+        tests:
+          - not_null:
+              config:
+                severity: warn
       - name: batched_at
         description: When the record was batched
+        tests:
+          - not_null:
+              config:
+                severity: warn
 
   - name: mart_example
     description: Example mart model
